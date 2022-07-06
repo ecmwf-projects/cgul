@@ -1,0 +1,16 @@
+{
+  "template": "https://github.com/ecmwf-projects/cookiecutter-conda-package",
+  "commit": "cb9df45f5ebc9a4887e52ec06f6aca23c3a1279c",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "cgul",
+      "project_slug": "cgul",
+      "project_short_description": "Python package which will be used to ensure consistent data format when working with Xarray type data objects.",
+      "copyright_holder": "European Union",
+      "copyright_year": "2022",
+      "_template": "https://github.com/ecmwf-projects/cookiecutter-conda-package"
+    }
+  },
+  "directory": null
+}
