@@ -5,3 +5,5 @@ dependencies:
 - make
 - pytest
 - pytest-cov
+- cf-units
+- xarray
