@@ -21,7 +21,8 @@ except ImportError:  # pragma: no cover
     __version__ = "999"
 
 from . import coordinate_models
-from .translate_coords import convert_units, coord_translator, translate_coords
+from .tools.convert_units import convert_units
+from .translate_coords import coord_translator, translate_coords
 
 __all__ = [
     "__version__",
