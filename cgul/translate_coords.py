@@ -124,34 +124,34 @@ def translate_coords(
         common_unit_names = COMMON_UNIT_NAMES
 
     for coordinate in data.coords:
-        # try:
-        if coord_model.get("_always_lower_case", False):
-            _coordinate = str(coordinate).lower()
-        else:
-            _coordinate = str(coordinate)
-        c_model = coord_model.get(_coordinate, {})
-        out_name = c_model.get("out_name", _coordinate)
-        data = data.assign_coords(  # type: ignore
-            {
-                coordinate: coord_translator(
-                    data.coords[coordinate],
-                    c_model,
-                    common_unit_names=common_unit_names,
-                    error_mode="warn",
+        try:
+            if coord_model.get("_always_lower_case", False):
+                _coordinate = str(coordinate).lower()
+            else:
+                _coordinate = str(coordinate)
+            c_model = coord_model.get(_coordinate, {})
+            out_name = c_model.get("out_name", _coordinate)
+            data = data.assign_coords(  # type: ignore
+                {
+                    coordinate: coord_translator(
+                        data.coords[coordinate],
+                        c_model,
+                        common_unit_names=common_unit_names,
+                        error_mode="warn",
+                    )
+                }
+            )
+            data = data.rename({coordinate: out_name})
+        except Exception as err:
+            if error_mode == "ignore":
+                pass
+            elif error_mode == "raise":
+                raise RuntimeError(
+                    f"Error while translating coordinate: {coordinate}.\n Traceback:\n{err}"
                 )
-            }
-        )
-        data = data.rename({coordinate: out_name})
-    # except Exception as err:
-    #     if error_mode == "ignore":
-    #         pass
-    #     elif error_mode == "raise":
-    #         raise RuntimeError(
-    #             f"Error while translating coordinate: {coordinate}.\n Traceback:\n{err}"
-    #         )
-    #     else:
-    #         LOG.warning(
-    #             f"Error while translating coordinate: {coordinate}.\n Traceback:\n{err}"
-    #         )
+            else:
+                LOG.warning(
+                    f"Error while translating coordinate: {coordinate}.\n Traceback:\n{err}"
+                )
 
     return data
