@@ -1,6 +1,6 @@
 import xarray as xr
 
-import cgull
+import cgul
 
 # Create test data array and dataset to apply methods to
 TEST_DA = xr.DataArray(
@@ -29,29 +29,29 @@ RESULT_DA = xr.DataArray(
     },
     dims=["latitude", "longitude", "depth"],
 )
-RESULT_DA["depth"] = RESULT_DA["depth"].assign_attrs(cgull.coordinate_models.CADS["depth"])  # type: ignore
+RESULT_DA["depth"] = RESULT_DA["depth"].assign_attrs(cgul.coordinate_models.CADS["depth"])  # type: ignore
 RESULT_DA["latitude"] = RESULT_DA["latitude"].assign_attrs(
-    cgull.coordinate_models.CADS["latitude"]
+    cgul.coordinate_models.CADS["latitude"]
 )  # type: ignore
 RESULT_DA["longitude"] = RESULT_DA["longitude"].assign_attrs(
-    cgull.coordinate_models.CADS["longitude"]
+    cgul.coordinate_models.CADS["longitude"]
 )  # type: ignore
 RESULT_DS = xr.Dataset({"test": RESULT_DA})
 
 
 def test_translate_coords_dataset() -> None:
-    result = cgull.translate_coords(TEST_DS, coord_model=cgull.coordinate_models.CADS)
+    result = cgul.translate_coords(TEST_DS, coord_model=cgul.coordinate_models.CADS)
     xr.testing.assert_identical(RESULT_DS, result)
 
 
 def test_translate_coords_dataarray() -> None:
-    result = cgull.translate_coords(TEST_DA, coord_model=cgull.coordinate_models.CADS)
+    result = cgul.translate_coords(TEST_DA, coord_model=cgul.coordinate_models.CADS)
     xr.testing.assert_identical(RESULT_DA, result)
 
 
 def test_coord_translator() -> None:
-    result = cgull.coord_translator(
-        TEST_DA["Lat"], c_model=cgull.coordinate_models.CADS["lat"]
+    result = cgul.coord_translator(
+        TEST_DA["Lat"], c_model=cgul.coordinate_models.CADS["lat"]
     )
     result = result.assign_coords({"Lat": result})  # type: ignore
     RESULT = RESULT_DA["latitude"].rename({"latitude": "Lat"})
@@ -60,5 +60,5 @@ def test_coord_translator() -> None:
 
 
 def test_convert_units() -> None:
-    result = cgull.convert_units(TEST_DA["Depth"], source_units="km", target_units="m")
+    result = cgul.convert_units(TEST_DA["Depth"], source_units="km", target_units="m")
     assert all(result.values == RESULT_DA["depth"].values)

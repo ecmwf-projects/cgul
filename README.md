@@ -4,25 +4,24 @@ Python package which will be used to ensure consistent data format when working 
 
 ## Usage
 
-The primary function in cgull is `cgull.translate_coords`. This function operates on an `xarray.Dataset` or
+The primary function in cgul is `cgul.translate_coords`. This function operates on an `xarray.Dataset` or
 `xarray.DataArray` and translates the coordinates to the specified coordinate model. Several coordinate models
 are included in the package, and users are recommended to use the default CADS coordinate model. A typical
 use case woould be:
 
 ```
 import xarray as xr
-import cgull
+import cgul
 
 infile = 'data_file.nc'
 data = xr.open_dataset(infile)
 
-data_cgull = cgull.translate_coords(
+data_cgul = cgul.translate_coords(
     data,
-    coord_model=cgull.coordinate_models.CADS  # This is the default value, so optional in this case
+    coord_model=cgul.coordinate_models.CADS  # This is the default value, so optional in this case
 )
 
 ```
-
 
 ## Workflow for developers/contributors
 
