@@ -7,7 +7,7 @@
       "project_name": "cgul",
       "project_slug": "cgul",
       "project_short_description": "Python package which will be used to ensure consistent data format when working with Xarray type data objects.",
-      "copyright_holder": "European Union",
+      "copyright_holder": "European Centre for Medium-Range Weather Forecasts (ECMWF)",
       "copyright_year": "2022",
       "_template": "https://github.com/ecmwf-projects/cookiecutter-conda-package"
     }

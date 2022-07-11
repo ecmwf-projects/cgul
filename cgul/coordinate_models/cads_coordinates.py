@@ -1,5 +1,5 @@
 #
-# Copyright 2017-2021 European Centre for Medium-Range Weather Forecasts (ECMWF).
+# Copyright 2017-2022, European Centre for Medium-Range Weather Forecasts (ECMWF).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ COORDINATES: T.Dict[str, T.Any] = {
     },
     "forecast_reference_time": {
         "standard_name": "forecast_reference_time",
-        "units": "hours since ?",
+        # "units": "hours since ?",
         "axis": "T",
         "long_name": "Initial time of forecast",
         "positive": "up",
@@ -147,7 +147,7 @@ COORDINATES: T.Dict[str, T.Any] = {
     },
     "time": {
         "standard_name": "time",
-        "units": "hours since ?",
+        # "units": "hours since ?",
         "axis": "T",
         "long_name": "time",
         "positive": "up",

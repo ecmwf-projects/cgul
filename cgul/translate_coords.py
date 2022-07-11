@@ -1,5 +1,5 @@
 #
-# Copyright 2017-2021 European Centre for Medium-Range Weather Forecasts (ECMWF).
+# Copyright 2017-2022, European Centre for Medium-Range Weather Forecasts (ECMWF).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -73,6 +73,15 @@ def coord_translator(
     coord_attrs = coord.attrs
     coord_attrs.update(c_model)
     coord.assign_attrs(coord_attrs)  # type: ignore
+
+    # Sometimes units are stored in the enoding, to remove conflicts when
+    # saving as netCDF we remove the encoding value here
+    double_defined_attrs = [
+        att for att in list(coord.attrs) if att in coord.encoding.keys()
+    ]
+    for att in double_defined_attrs:
+        print(att)
+        del coord.encoding[att]
 
     return coord
 
