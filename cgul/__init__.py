@@ -20,14 +20,6 @@ except ImportError:  # pragma: no cover
     # Local copy or not installed with setuptools
     __version__ = "999"
 
-from . import coordinate_models
-from .tools.convert_units import convert_units
+from . import coordinate_models, tools
+from .harmonise import harmonise
 from .translate_coords import coord_translator, translate_coords
-
-__all__ = [
-    "__version__",
-    "translate_coords",
-    "convert_units",
-    "coord_translator",
-    "coordinate_models",
-]
