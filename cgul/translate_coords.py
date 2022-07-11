@@ -76,7 +76,7 @@ def coord_translator(
         **c_model,
         **coord.attrs,
     }
-    coord.assign_attrs(coord_attrs)  # type: ignore
+    coord = coord.assign_attrs(coord_attrs)  # type: ignore
 
     # Sometimes units are stored in the enoding, to remove conflicts when
     # saving as netCDF we remove the encoding value here

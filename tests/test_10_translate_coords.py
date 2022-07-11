@@ -13,12 +13,13 @@ RESULT_DS = _test_objects.RESULT_DS
 def test_translate_coords_dataset() -> None:
     result = cgul.translate_coords(TEST_DS, coord_model=cgul.coordinate_models.CADS)
     xr.testing.assert_identical(RESULT_DS, result)
-    assert RESULT_DS["test"].attrs == TEST_DS["test"].attrs
+    assert result.to_dict() == RESULT_DS.to_dict()
 
 
 def test_translate_coords_dataarray() -> None:
     result = cgul.translate_coords(TEST_DA, coord_model=cgul.coordinate_models.CADS)
     xr.testing.assert_identical(RESULT_DA, result)
+    assert result.to_dict() == RESULT_DA.to_dict()
 
 
 def test_coord_translator() -> None:
@@ -29,3 +30,4 @@ def test_coord_translator() -> None:
     RESULT = RESULT_DA["latitude"].rename({"latitude": "Lat"})
     RESULT.name = "Lat"
     xr.testing.assert_identical(RESULT, result)
+    assert result.to_dict() == RESULT.to_dict()
