@@ -14,3 +14,4 @@ dependencies:
 - cf-units
 - xarray
 - netCDF4
+- Click
