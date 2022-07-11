@@ -18,14 +18,14 @@ def test_convert_units() -> None:
 
 def test_common_unit_fixes() -> None:
     result = cgul.tools.common_unit_fixes(
-        TEST_DA.assign_attrs({"Units": "m of water equivalent"})
+        TEST_DA.assign_attrs({"Units": "m of water equivalent"})  # type: ignore
     )
-    assert result.attrs == TEST_DA.assign_attrs({"units": "m"}).attrs
+    assert result.attrs == TEST_DA.assign_attrs({"units": "m"}).attrs  # type: ignore
 
-    result = cgul.tools.common_unit_fixes(TEST_DA.assign_attrs({"Units": "(0-1)"}))
-    assert result.attrs == TEST_DA.assign_attrs({"units": "1"}).attrs
+    result = cgul.tools.common_unit_fixes(TEST_DA.assign_attrs({"Units": "(0-1)"}))  # type: ignore
+    assert result.attrs == TEST_DA.assign_attrs({"units": "1"}).attrs  # type: ignore
 
     result = cgul.tools.common_unit_fixes(
-        TEST_DA.assign_attrs({"Units": "Dimensionless"})
+        TEST_DA.assign_attrs({"Units": "Dimensionless"})  # type: ignore
     )
-    assert result.attrs == TEST_DA.assign_attrs({"units": "1"}).attrs
+    assert result.attrs == TEST_DA.assign_attrs({"units": "1"}).attrs  # type: ignore

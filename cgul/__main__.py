@@ -26,7 +26,7 @@ import click
 # NOTE: imports are executed inside functions so missing dependencies don't break all commands
 
 
-def handle_json(in_json):
+def handle_json(in_json: str) -> T.Any:
     """
     Handle input json which can be a a json format string, or path to a json format file.
 
@@ -41,6 +41,7 @@ def handle_json(in_json):
         # Then a json file
         with open(in_json, "r") as f:
             out_json = json.load(f)
+
     return out_json
 
 
@@ -150,10 +151,10 @@ def harmonise(
         ds = xr.open_dataset(
             inpaths[0],
             **xarray_open_kwargs,
-        )
+        )  # type: ignore
     else:
         xarray_open_kwargs.setdefault("combine", "by_coords")
-        ds = xr.open_mfdataset(inpaths, **xarray_open_kwargs)
+        ds = xr.open_mfdataset(inpaths, **xarray_open_kwargs)  # type: ignore
 
     # Set up kwargs for cgul.harmonise
     harmonise_kwargs = {}

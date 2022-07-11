@@ -25,3 +25,12 @@ except ImportError:  # pragma: no cover
 from . import coordinate_models, tools
 from .harmonise import harmonise
 from .translate_coords import coord_translator, translate_coords
+
+__all__ = [
+    "__version__",
+    "coordinate_models",
+    "tools",
+    "harmonise",
+    "coord_translator",
+    "translate_coords",
+]

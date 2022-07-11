@@ -72,7 +72,7 @@ def harmonise(
     assign_coords = {
         coord: data[coord] for coord in additional_coords if coord in data.data_vars
     }
-    data = data.assign_coords(assign_coords)
+    data = data.assign_coords(assign_coords)  # type: ignore
 
     # 2. Apply common fixes to the attributes of data variables
     #    (coordinate variables are handled in translate_coords)

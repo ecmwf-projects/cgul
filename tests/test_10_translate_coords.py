@@ -13,7 +13,7 @@ RESULT_DS = _test_objects.RESULT_DS
 def test_translate_coords_dataset() -> None:
     result = cgul.translate_coords(TEST_DS, coord_model=cgul.coordinate_models.CADS)
     xr.testing.assert_identical(RESULT_DS, result)
-    assert result.to_dict() == RESULT_DS.to_dict()
+    assert result.to_dict() == RESULT_DS.to_dict()  # type: ignore
 
 
 def test_translate_coords_dataarray() -> None:
