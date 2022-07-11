@@ -72,7 +72,7 @@ def harmonise(
     data = data.assign_coords(assign_coords)
 
     # 2. Apply common fixes to the attributes of data variables
-    #    (coordinate variables are handled in transalte_coords)
+    #    (coordinate variables are handled in translate_coords)
     if isinstance(data, xr.Dataset):
         for var in data.data_vars:
             data[var] = tools.common_unit_fixes(

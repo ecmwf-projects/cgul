@@ -59,6 +59,7 @@ def coord_translator(
     xarray.DataArray
         Data array for the coordinate translated to a format described by c_model
     """
+    coord = tools.common_unit_fixes(coord, common_unit_names=common_unit_names)
     if "units" in coord.attrs:
         source_units = str(coord.attrs.get("units"))
         target_units = c_model.get("units", source_units)
@@ -70,8 +71,11 @@ def coord_translator(
             error_mode=error_mode,
         )
 
-    coord_attrs = coord.attrs
-    coord_attrs.update(c_model)
+    # Attributes in source data are given priority
+    coord_attrs = {
+        **c_model,
+        **coord.attrs,
+    }
     coord.assign_attrs(coord_attrs)  # type: ignore
 
     # Sometimes units are stored in the enoding, to remove conflicts when

@@ -52,6 +52,12 @@ def cgul_cli() -> None:
 @cgul_cli.command("harmonise")
 @click.argument("inpaths", nargs=-1)
 @click.option(
+    "--check",
+    "-C",
+    is_flag=True,
+    help="Option to check contents only and not produce output netCDF file.",
+)
+@click.option(
     "--outpath", "-o", default=None, help="Filename of the output netcdf file."
 )
 @click.option(
@@ -123,17 +129,14 @@ def harmonise(
     harmonise_kwargs_json: str,
     xarray_open_kwargs_json: str,
     netcdf_kwargs_json: str,
+    check: bool,
 ) -> None:
     import xarray as xr
 
     import cgul
 
-    # NOTE: noop if no input argument
     if len(inpaths) == 0:
         return
-
-    if not outpath:
-        outpath = os.path.splitext(inpaths[0])[0] + "-cgul_harmony.nc"
 
     if xarray_open_kwargs_json is not None:
         xarray_open_kwargs = handle_json(xarray_open_kwargs_json)
@@ -177,12 +180,20 @@ def harmonise(
     # Call harmonise
     ds = cgul.harmonise(ds, **harmonise_kwargs)
 
-    if netcdf_kwargs_json is not None:
-        netcdf_kwargs = handle_json(netcdf_kwargs_json)
+    if check:
+        # If only checking contents, print the harmonised xarray.Dataset
+        print(ds)
     else:
-        netcdf_kwargs = {}
+        # Else, produce output netcdf file
+        if not outpath:
+            outpath = os.path.splitext(inpaths[0])[0] + "-cgul_harmony.nc"
 
-    ds.to_netcdf(outpath, **netcdf_kwargs)
+        if netcdf_kwargs_json is not None:
+            netcdf_kwargs = handle_json(netcdf_kwargs_json)
+        else:
+            netcdf_kwargs = {}
+
+        ds.to_netcdf(outpath, **netcdf_kwargs)
 
 
 if __name__ == "__main__":  # pragma: no cover
