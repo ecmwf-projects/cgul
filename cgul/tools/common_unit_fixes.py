@@ -27,7 +27,7 @@ def common_unit_fixes(
     common_unit_names: T.Union[T.Dict[str, str], None] = None,
 ) -> xr.DataArray:
     """
-    Apply common fixes to the units of xarray.DataArray objects
+    Apply common fixes to the units of xarray.DataArray objects.
 
     Parameters
     ----------
@@ -36,7 +36,6 @@ def common_unit_fixes(
     Returns
     -------
     xarray.DataArray
-
     """
     if common_unit_names is None:
         common_unit_names = COMMON_UNIT_NAMES

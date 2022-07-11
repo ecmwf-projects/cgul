@@ -59,7 +59,6 @@ def coord_translator(
     xarray.DataArray
         Data array for the coordinate translated to a format described by c_model
     """
-    coord = tools.common_unit_fixes(coord, common_unit_names=common_unit_names)
     if "units" in coord.attrs:
         source_units = str(coord.attrs.get("units"))
         target_units = c_model.get("units", source_units)

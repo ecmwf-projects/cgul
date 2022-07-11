@@ -36,8 +36,7 @@ def harmonise(
     error_mode: str = "warn",
 ) -> T.Union[xr.Dataset, xr.DataArray]:
     """
-    Harmonise a xarray.Dataset or xarray.DataArray to a given coordinate model and
-    adjust any common issues such as units names.
+    Harmonise input xarray object to a coordinate model and adjust any common issues such as units names.
 
     Parameters
     ----------
