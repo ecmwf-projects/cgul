@@ -34,7 +34,6 @@ def convert_units(
     xarray.DataArray
         Data array with units target_units
     """
-
     if target_units == source_units:
         return data
 
