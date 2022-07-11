@@ -34,6 +34,7 @@ def coord_translator(
     coord: xr.DataArray,
     c_model: T.Dict[str, T.Any],
     common_unit_names: T.Union[T.Dict[str, str], None] = None,
+    convert_units: bool = True,
     error_mode: str = "warn",
 ) -> xr.DataArray:
     """
@@ -49,6 +50,8 @@ def coord_translator(
     common_unit_names : dictionary
         A dictionary providing mapping of common names for units which are not recognised
         by cf-units to recognised cf-units, e.g. {'DegNorth': 'Degrees_North'}.
+    convert_units: bool
+        A boolean flag to convert units to those defined in the coordinate model
     error_mode : str
         Error mode, options are "ignore": all conversion errors are ignored;
         "warn": conversion errors provide a stderr warning message; "raise":
@@ -60,7 +63,7 @@ def coord_translator(
         Data array for the coordinate translated to a format described by c_model
     """
     coord = tools.common_unit_fixes(coord, common_unit_names=common_unit_names)
-    if "units" in coord.attrs:
+    if convert_units and ("units" in coord.attrs):
         source_units = str(coord.attrs.get("units"))
         target_units = c_model.get("units", source_units)
         coord = tools.convert_units(
@@ -94,6 +97,7 @@ def translate_coords(
     data: T.Union[xr.Dataset, xr.DataArray],
     coord_model: T.Union[T.Dict[str, T.Any], None] = None,
     common_unit_names: T.Union[T.Dict[str, str], None] = None,
+    convert_units: bool = True,
     error_mode: str = "warn",
 ) -> T.Union[xr.Dataset, xr.DataArray]:
     """
@@ -110,6 +114,8 @@ def translate_coords(
         A dictionary providing mapping of common names for units which are not recognised
         by cf-units to recognised cf-units, e.g. {'DegNorth': 'Degrees_North'}. Default is
         cgul.tools.COMMON_UNIT_NAMES
+    convert_units: bool
+        A boolean flag to convert units to those defined in the coordinate model
     error_mode : str
         Error mode, options are "ignore": all conversion errors are ignored;
         "warn": conversion errors provide a stderr warning message; "raise":
@@ -137,6 +143,7 @@ def translate_coords(
                         data.coords[coordinate],
                         c_model,
                         common_unit_names=common_unit_names,
+                        convert_units=convert_units,
                         error_mode="warn",
                     )
                 }

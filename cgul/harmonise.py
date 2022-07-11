@@ -33,6 +33,7 @@ def harmonise(
     coord_model: T.Union[T.Dict[str, T.Any], None] = None,
     additional_coords: T.List[str] = [],
     common_unit_names: T.Union[T.Dict[str, str], None] = None,
+    convert_units: bool = True,
     error_mode: str = "warn",
 ) -> T.Union[xr.Dataset, xr.DataArray]:
     """
@@ -51,6 +52,8 @@ def harmonise(
     common_unit_names : dictionary
         A dictionary providing mapping of common names for units which are not recognised
         by cf-units to recognised cf-units, e.g. {'DegNorth': 'Degrees_North'}.
+    convert_units: bool
+        A boolean flag to convert units to those defined in the coordinate model
     error_mode : str
         Error mode, options are "ignore": all conversion errors are ignored;
         "warn": conversion errors provide a stderr warning message; "raise":
@@ -86,6 +89,7 @@ def harmonise(
         data,
         coord_model=coord_model,
         common_unit_names=common_unit_names,
+        convert_units=convert_units,
         error_mode=error_mode,
     )
 
