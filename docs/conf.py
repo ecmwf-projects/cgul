@@ -27,26 +27,27 @@ release = cgul.__version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "autoapi.extension",
     "myst_parser",
     "sphinx.ext.autodoc",
-    "sphinxcontrib.apidoc",
     "sphinx.ext.napoleon",
 ]
 
 # autdoc options
 autodoc_typehints = "none"
 
-# apidoc configuration
-apidoc_excluded_paths = [
-    "version.py",
-    "tools/error_handler.py",
-    "coordinate_models/cads.py",
-    "coordinate_models/cads_coordinates.py",
-    "coordinate_models/legacy_options.py",
+# autoapi configuration
+autoapi_dirs = ["../cgul"]
+autoapi_ignore = ["*/version.py"]
+autoapi_options = [
+    "members",
+    "inherited-members",
+    "undoc-members",
+    "show-inheritance",
+    "show-module-summary",
+    "imported-members",
 ]
-apidoc_module_dir = "../cgul"
-apidoc_output_dir = "_api"
-apidoc_separate_modules = True
+autoapi_root = "_api"
 
 # napoleon configuration
 napoleon_google_docstring = False

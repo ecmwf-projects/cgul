@@ -12,9 +12,10 @@ cgul is a python package which can be used to ensure consistent data format when
 :caption: 'Getting Started:'
 :maxdepth: 1
 
-  getting_started/overview.md
-  getting_started/installing.md
-  getting_started/usage.md
+getting_started/overview.md
+getting_started/installing.md
+getting_started/usage.md
+API <_api/cgul/index>
 ```
 
 ```{toctree}

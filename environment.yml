@@ -10,7 +10,7 @@ dependencies:
 - pytest
 - pytest-cov
 - sphinx
-- sphinxcontrib-apidoc
+- sphinx-autoapi
 - cf-units
 - xarray
 - netCDF4
