@@ -9,7 +9,7 @@ cgul is a python package which can be used to ensure consistent data format when
 - [Usage](../getting_started/usage)
 
 ```{toctree}
-:caption: 'Getting Started'
+:caption: 'Getting Started:'
 :maxdepth: 1
 
   getting_started/overview.md

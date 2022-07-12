@@ -37,7 +37,13 @@ extensions = [
 autodoc_typehints = "none"
 
 # apidoc configuration
-apidoc_excluded_paths = ["version.py"]
+apidoc_excluded_paths = [
+    "version.py",
+    "tools/error_handler.py",
+    "coordinate_models/cads.py",
+    "coordinate_models/cads_coordinates.py",
+    "coordinate_models/legacy_options.py",
+]
 apidoc_module_dir = "../cgul"
 apidoc_output_dir = "_api"
 apidoc_separate_modules = True
