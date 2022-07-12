@@ -2,49 +2,29 @@
 
 cgul is a python package which can be used to ensure consistent data format when working with Xarray type data objects. It is a lightweight package that works on an xarray-in/xarray-out basis, and is intended for use with other geo-data packages.
 
-## Usage
+# Getting Started
 
-The primary function in cgul is `cgul.translate_coords`. This function operates on an `xarray.Dataset` or
-`xarray.DataArray` and translates the coordinates to the specified coordinate model. Several coordinate models
-are included in the package, and users are recommended to use the default CADS coordinate model. A typical
-use case would be:
+- [Overview](../getting_started/overview)
+- [Installing](../getting_started/installing)
+- [Usage](../getting_started/usage)
 
-```
-import xarray as xr
-import cgul
+```{toctree}
+:caption: 'Getting Started'
+:maxdepth: 1
 
-infile = 'data_file.nc'
-data = xr.open_dataset(infile)
-
-# To harmonise the coordinates and unit names:
-data_cgul = cgul.harmonise(
-    data,
-    coord_model=cgul.coordinate_models.CADS  # This is the default value, so optional in this case
-)
-
-# To just harmonise the coordinates:
-data_cgul = cgul.translate_coordinates(
-    data,
-    coord_model=cgul.coordinate_models.CADS  # This is the default value, so optional in this case
-)
-```
-
-It is is also possible to use command line executables to check files can be harmonised, or to produce netCDF files with harmonised coordinates and metadata:
-
-```
-# To check that $INFILE has contents that can be harmonised,
-# this will print out the harmonised xarray.Dataset:
-cgul harmonise --check $INFILE
-
-# To produce an ouput file, $OUTFILE, which contains the harmonised version of
-# the contents of $INFILE:
-cgul harmonise --output $OUTFILE $INFILE
+  getting_started/overview.md
+  getting_started/installing.md
+  getting_started/usage.md
 ```
 
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 2
 ```
+
+## License
+
+*cgul* is available under the open source [Apache License](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Indices and tables
 
