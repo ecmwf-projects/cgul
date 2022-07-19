@@ -1,5 +1,5 @@
 #
-# Copyright 2017-2021 European Centre for Medium-Range Weather Forecasts (ECMWF).
+# Copyright 2017-2022, European Centre for Medium-Range Weather Forecasts (ECMWF).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,27 +23,18 @@ import typing as T
 
 import xarray as xr
 
-from . import coordinate_models
-from .tools import convert_units
+from . import coordinate_models, tools
 
 LOG = logging.getLogger(__name__)
 
 DEFAULT_COORD_MODEL = coordinate_models.CADS
 
-# Common units which are not recognised by cf-units.
-# This is the default dictionary which will grow with experience
-# and can be superceded/expanded when translate_coords is called.
-COMMON_UNIT_NAMES = {
-    "-": "1",
-    "DegNorth": "Degrees_North",
-    "DegEast": "Degrees_East",
-}
-
 
 def coord_translator(
     coord: xr.DataArray,
     c_model: T.Dict[str, T.Any],
-    common_unit_names: T.Dict[str, str] = COMMON_UNIT_NAMES,
+    common_unit_names: T.Union[T.Dict[str, str], None] = None,
+    convert_units: bool = True,
     error_mode: str = "warn",
 ) -> xr.DataArray:
     """
@@ -59,6 +50,8 @@ def coord_translator(
     common_unit_names : dictionary
         A dictionary providing mapping of common names for units which are not recognised
         by cf-units to recognised cf-units, e.g. {'DegNorth': 'Degrees_North'}.
+    convert_units: bool
+        A boolean flag to convert units to those defined in the coordinate model
     error_mode : str
         Error mode, options are "ignore": all conversion errors are ignored;
         "warn": conversion errors provide a stderr warning message; "raise":
@@ -69,11 +62,11 @@ def coord_translator(
     xarray.DataArray
         Data array for the coordinate translated to a format described by c_model
     """
-    if "units" in coord.attrs:
+    coord = tools.common_unit_fixes(coord, common_unit_names=common_unit_names)
+    if convert_units and ("units" in coord.attrs):
         source_units = str(coord.attrs.get("units"))
-        source_units = common_unit_names.get(source_units, source_units)
         target_units = c_model.get("units", source_units)
-        coord = convert_units(
+        coord = tools.convert_units(
             coord,
             target_units,
             source_units,
@@ -81,9 +74,21 @@ def coord_translator(
             error_mode=error_mode,
         )
 
-    coord_attrs = coord.attrs
-    coord_attrs.update(c_model)
-    coord.assign_attrs(coord_attrs)  # type: ignore
+    # Attributes in source data are given priority
+    coord_attrs = {
+        **c_model,
+        **coord.attrs,
+    }
+    coord = coord.assign_attrs(coord_attrs)  # type: ignore
+
+    # Sometimes units are stored in the enoding, to remove conflicts when
+    # saving as netCDF we remove the encoding value here
+    double_defined_attrs = [
+        att for att in list(coord.attrs) if att in coord.encoding.keys()
+    ]
+    for att in double_defined_attrs:
+        print(att)
+        del coord.encoding[att]
 
     return coord
 
@@ -92,21 +97,25 @@ def translate_coords(
     data: T.Union[xr.Dataset, xr.DataArray],
     coord_model: T.Union[T.Dict[str, T.Any], None] = None,
     common_unit_names: T.Union[T.Dict[str, str], None] = None,
+    convert_units: bool = True,
     error_mode: str = "warn",
 ) -> T.Union[xr.Dataset, xr.DataArray]:
     """
-    Translate the coordiantes of an xarray dataset to a given coordinate model.
+    Translate the coordinates of an xarray dataset to a given coordinate model.
 
     Parameters
     ----------
-    data : xarray.dataset
+    data : xarray.Dataset
         Dataset with the coordinates to be translated.
     coord_model : dictionary
         A dictionary providing the coordinate model to transalte the input
         dataset to.
     common_unit_names : dictionary
         A dictionary providing mapping of common names for units which are not recognised
-        by cf-units to recognised cf-units, e.g. {'DegNorth': 'Degrees_North'}.
+        by cf-units to recognised cf-units, e.g. {'DegNorth': 'Degrees_North'}. Default is
+        cgul.tools.COMMON_UNIT_NAMES
+    convert_units: bool
+        A boolean flag to convert units to those defined in the coordinate model
     error_mode : str
         Error mode, options are "ignore": all conversion errors are ignored;
         "warn": conversion errors provide a stderr warning message; "raise":
@@ -119,8 +128,6 @@ def translate_coords(
     """
     if coord_model is None:
         coord_model = DEFAULT_COORD_MODEL
-    if common_unit_names is None:
-        common_unit_names = COMMON_UNIT_NAMES
 
     for coordinate in data.coords:
         try:
@@ -136,6 +143,7 @@ def translate_coords(
                         data.coords[coordinate],
                         c_model,
                         common_unit_names=common_unit_names,
+                        convert_units=convert_units,
                         error_mode="warn",
                     )
                 }

@@ -14,7 +14,7 @@ def convert_units(
     error_mode: str = "warn",
 ) -> xr.DataArray:
     """
-    Convert units of the coordinate using cf-units relationships.
+    Convert units of an xarray.DataArray using cf-units relationships.
 
     Parameters
     ----------
@@ -64,7 +64,7 @@ def convert_units(
         converted_values = _source_units.convert(data.values, _target_units)
     except Exception as err:
         error_handler(
-            f"Error while converting {_source_units} to {_target_units} for {data.name} coordinate.\n",
+            f"Error while converting {_source_units} to {_target_units} for {data.name}.\n",
             logger,
             warn_extra="Units will not be converted.\n",
             err=err,

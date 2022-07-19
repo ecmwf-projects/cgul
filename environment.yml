@@ -13,3 +13,5 @@ dependencies:
 - sphinxcontrib-apidoc
 - cf-units
 - xarray
+- netCDF4
+- Click

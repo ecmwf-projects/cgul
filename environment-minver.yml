@@ -7,3 +7,5 @@ dependencies:
 - pytest-cov
 - cf-units
 - xarray
+- netCDF4
+- Click

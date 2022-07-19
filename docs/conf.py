@@ -16,8 +16,8 @@ sys.path.insert(0, os.path.abspath("../"))
 # -- Project information -----------------------------------------------------
 
 project = "cgul"
-copyright = "2022, European Union"
-author = "European Union"
+copyright = "2022, European Centre for Medium-Range Weather Forecasts (ECMWF)"
+author = "European Centre for Medium-Range Weather Forecasts (ECMWF)"
 version = cgul.__version__
 release = cgul.__version__
 
@@ -26,9 +26,24 @@ release = cgul.__version__
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["myst_parser", "sphinxcontrib.apidoc", "sphinx.ext.napoleon"]
+extensions = [
+    "myst_parser",
+    "sphinx.ext.autodoc",
+    "sphinxcontrib.apidoc",
+    "sphinx.ext.napoleon",
+]
+
+# autdoc options
+autodoc_typehints = "none"
 
 # apidoc configuration
+apidoc_excluded_paths = [
+    "version.py",
+    "tools/error_handler.py",
+    "coordinate_models/cads.py",
+    "coordinate_models/cads_coordinates.py",
+    "coordinate_models/legacy_options.py",
+]
 apidoc_module_dir = "../cgul"
 apidoc_output_dir = "_api"
 apidoc_separate_modules = True

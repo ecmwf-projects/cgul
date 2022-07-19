@@ -1,6 +1,6 @@
 """Python package to ensure consistent data format when working with Xarray type data objects."""
 
-# Copyright 2022, European Union.
+# Copyright 2017-2022,European Centre for Medium-Range Weather Forecasts (ECMWF).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,14 +22,15 @@ except ImportError:  # pragma: no cover
     # Local copy or not installed with setuptools
     __version__ = "999"
 
-from . import coordinate_models
-from .tools.convert_units import convert_units
+from . import coordinate_models, tools
+from .harmonise import harmonise
 from .translate_coords import coord_translator, translate_coords
 
 __all__ = [
     "__version__",
-    "translate_coords",
-    "convert_units",
-    "coord_translator",
     "coordinate_models",
+    "tools",
+    "harmonise",
+    "coord_translator",
+    "translate_coords",
 ]
