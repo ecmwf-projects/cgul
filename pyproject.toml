@@ -6,9 +6,6 @@ requires = [
     "setuptools_scm_git_archive",
 ]
 
-[project.scripts]
-realpython = "cgul.__main__:main"
-
 [tool.coverage.run]
 branch = true
 
