@@ -198,4 +198,4 @@ def harmonise(
 
 
 if __name__ == "__main__":  # pragma: no cover
-    cgul_cli()
+    cgul_cli()  # type: ignore
