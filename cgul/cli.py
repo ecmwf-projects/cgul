@@ -179,7 +179,7 @@ def harmonise(
         )
 
     # Call harmonise
-    ds = cgul.harmonise(ds, **harmonise_kwargs)
+    ds = cgul.harmonise(ds, **harmonise_kwargs)  # type: ignore
 
     if check:
         # If only checking contents, print the harmonised xarray.Dataset
