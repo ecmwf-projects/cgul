@@ -1,5 +1,5 @@
 #
-# Copyright 2017-2022, European Centre for Medium-Range Weather Forecasts (ECMWF).
+# Copyright 2017-2022, European Union.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ def harmonise(
     assign_coords = {
         coord: data[coord] for coord in additional_coords if coord in data.data_vars
     }
-    data = data.assign_coords(assign_coords)  # type: ignore
+    data = data.assign_coords(assign_coords)
 
     # 2. Apply common fixes to the attributes of data variables
     #    (coordinate variables are handled in translate_coords)

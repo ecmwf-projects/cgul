@@ -74,5 +74,5 @@ def convert_units(
 
     # cf-units not compatible with xarray objects, so operate at the numpy level
     data = (data * 0) + converted_values
-    data.assign_attrs({"units": source_units})  # type: ignore
+    data.assign_attrs({"units": source_units})
     return data

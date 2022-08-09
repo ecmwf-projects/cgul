@@ -1,7 +1,7 @@
 import tempfile
 
 import _test_objects
-import click.testing  # type: ignore
+import click.testing
 
 from cgul import cli
 

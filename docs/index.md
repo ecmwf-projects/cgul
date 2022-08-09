@@ -20,6 +20,8 @@ cgul is a python package which can be used to ensure consistent data format when
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 2
+
+API Reference <_api/cgul/index>
 ```
 
 ## License

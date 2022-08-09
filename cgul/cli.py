@@ -1,5 +1,5 @@
 #
-# Copyright 2017-2022, European Centre for Medium-Range Weather Forecasts (ECMWF).
+# Copyright 2017-2022, European Union.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import json
 import os.path
 import typing as T
 
-import click  # type: ignore
+import click
 
 # NOTE: imports are executed inside functions so missing dependencies don't break all commands
 
@@ -45,22 +45,22 @@ def handle_json(in_json: str) -> T.Any:
     return out_json
 
 
-@click.group()  # type: ignore
+@click.group()
 def cgul_cli() -> None:
     pass
 
 
-@cgul_cli.command("harmonise")  # type: ignore
-@click.argument("inpaths", nargs=-1)  # type: ignore
+@cgul_cli.command("harmonise")
+@click.argument("inpaths", nargs=-1)
 @click.option(
     "--check",
     "-C",
     is_flag=True,
     help="Option to check contents only and not produce output netCDF file.",
-)  # type: ignore
+)
 @click.option(
     "--outpath", "-o", default=None, help="Filename of the output netcdf file."
-)  # type: ignore
+)
 @click.option(
     "--coord-model",
     "-c",
@@ -70,7 +70,7 @@ def cgul_cli() -> None:
         "Can be a recoginised cgul coordinate model (CADS, CDS, ECMWF), "
         "or a JSON string or path to a JSON file with the full coordinate model."
     ),
-)  # type: ignore
+)
 @click.option(
     "--additional-coords",
     "-a",
@@ -82,7 +82,7 @@ def cgul_cli() -> None:
         "Can be provided as a comma space list, e.g. `-a lat,lon,depth`."
         "They can also be included in the harmonise-kwargs-json."
     ),
-)  # type: ignore
+)
 @click.option(
     "--common-unit-names-json",
     "-c",
@@ -91,7 +91,7 @@ def cgul_cli() -> None:
         "A dictionary matching unit names in source data files to unit names recognised by cf-units. "
         "Can be provided as a JSON string or path to a JSON file."
     ),
-)  # type: ignore
+)
 @click.option(
     "--harmonise-kwargs-json",
     "-h",
@@ -102,7 +102,7 @@ def cgul_cli() -> None:
         "components passed in via --coord-model, --additional-coords and --common-unit-names will "
         "supercede the information provided here."
     ),
-)  # type: ignore
+)
 @click.option(
     "--xarray-open-kwargs-json",
     "-x",
@@ -111,7 +111,7 @@ def cgul_cli() -> None:
         "kwargs used in xarray.open_dataset."
         "Can either be a JSON format string or the path to JSON file."
     ),
-)  # type: ignore
+)
 @click.option(
     "--netcdf-kwargs-json",
     "-n",
@@ -120,7 +120,7 @@ def cgul_cli() -> None:
         "kwargs used in xarray.to_netcdf when creating output netCDF file."
         "Can either be a JSON format string or the path to JSON file."
     ),
-)  # type: ignore
+)
 def harmonise(
     inpaths: T.List[str],
     outpath: str,
@@ -151,10 +151,10 @@ def harmonise(
         ds = xr.open_dataset(
             inpaths[0],
             **xarray_open_kwargs,
-        )  # type: ignore
+        )
     else:
         xarray_open_kwargs.setdefault("combine", "by_coords")
-        ds = xr.open_mfdataset(inpaths, **xarray_open_kwargs)  # type: ignore
+        ds = xr.open_mfdataset(inpaths, **xarray_open_kwargs)
 
     # Set up kwargs for cgul.harmonise
     harmonise_kwargs = {}

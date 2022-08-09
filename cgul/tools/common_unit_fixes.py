@@ -41,11 +41,11 @@ def common_unit_fixes(
         common_unit_names = COMMON_UNIT_NAMES
     # Uncapitalise Units attribute
     if "Units" in data.attrs:
-        data = data.assign_attrs({"units": data.attrs["Units"]})  # type: ignore
+        data = data.assign_attrs({"units": data.attrs["Units"]})
         data.attrs.pop("Units")
 
     # Common units that need renaming
     if data.attrs.get("units", "") in list(common_unit_names):
-        data = data.assign_attrs({"units": common_unit_names[data.attrs["units"]]})  # type: ignore
+        data = data.assign_attrs({"units": common_unit_names[data.attrs["units"]]})
 
     return data
