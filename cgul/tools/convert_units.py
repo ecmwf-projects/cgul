@@ -1,4 +1,5 @@
 import logging
+import typing as T
 
 import cf_units
 import xarray as xr
@@ -9,7 +10,7 @@ from .error_handler import error_handler
 def convert_units(
     data: xr.DataArray,
     target_units: str,
-    source_units: str,
+    source_units: T.Union[str, None] = None,
     logger: logging.Logger = logging.getLogger(__name__),
     error_mode: str = "warn",
 ) -> xr.DataArray:
@@ -22,9 +23,10 @@ def convert_units(
         Input data array with units source_units.
     target_units : string
         Units to convert the data to.
-    source_units : string
-        Units to convert the data from.
-    error_mode : str
+    source_units : str (optional)
+        Units to convert the data from. If not provided then a units attribute
+        is detected in the dataarray.
+    error_mode : str (optional)
         Error mode, options are "ignore": all conversion errors are ignored;
         "warn": conversion errors provide a stderr warning message; "raise":
         conversion errors raise a RuntimeError
@@ -34,6 +36,18 @@ def convert_units(
     xarray.DataArray
         Data array with units target_units
     """
+    if source_units is None:
+        try:
+            source_units = data.attrs["units"]
+        except AttributeError:
+            error_handler(
+                "Source units not provided or detected in data array\n",
+                logger,
+                warn_extra="Units will not be converted.\n",
+                error_mode=error_mode,
+            )
+            return data
+
     if target_units == source_units:
         return data
 
