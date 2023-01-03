@@ -1,6 +1,6 @@
 # cgul
 
-Python package which will be used to ensure consistent data format when working with Xarray type data objects.
+**C**ommon **G**eneralised **U**niform and **L**ight. Python package which will be used to ensure consistent data format when working with Xarray type data objects.
 
 ## Usage
 
