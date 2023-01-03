@@ -14,7 +14,7 @@ profile = "black"
 
 [tool.pydocstyle]
 convention = "numpy"
-add_ignore = "D1"
+add_ignore = ["D1", "D200", "D205", "D400", "D401"]
 
 [tool.setuptools_scm]
 write_to = "cgul/version.py"

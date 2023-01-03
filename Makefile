@@ -3,13 +3,16 @@ CONDA := conda
 CONDAFLAGS :=
 COV_REPORT := html
 
-default: qa unit-tests
+default: qa unit-tests type-check
 
 qa:
 	pre-commit run --all-files
 
 unit-tests:
 	python -m pytest -vv --cov=. --cov-report=$(COV_REPORT)
+
+type-check:
+	python -m mypy .
 
 conda-env-update:
 	$(CONDA) env update $(CONDAFLAGS) -f environment.yml
@@ -26,4 +29,6 @@ template-update:
 docs-build:
 	cd docs && rm -fr _api && make clean && make html
 
-# DO NOT EDIT ABOVE THIS LINE, ADD COMMANDS BELOW
+#integration-tests:
+#    python -m pytest -vv --cov=. --cov-report=$(COV_REPORT) tests/integration*.py
+#    python -m pytest -vv --doctest-glob='*.md'

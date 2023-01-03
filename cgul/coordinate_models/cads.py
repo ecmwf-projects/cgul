@@ -46,6 +46,7 @@ CADS: T.Dict[str, T.Any] = {
     "valid_time": COORDINATES["time"],
     "step": COORDINATES["leadtime"],
     "forecastmonth": COORDINATES["leadtime_month"],
+    "forecast_period": COORDINATES["leadtime"],
     "depthbelowland": COORDINATES["depth"],
     "isobaricinhpa": COORDINATES["plev"],
     "number": COORDINATES["realization"],
