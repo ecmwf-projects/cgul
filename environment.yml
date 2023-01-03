@@ -3,6 +3,7 @@ channels:
 - nodefaults
 dependencies:
 - make
+- mypy
 - myst-parser
 - pre-commit
 - pydata-sphinx-theme
@@ -10,6 +11,7 @@ dependencies:
 - pytest-cov
 - sphinx
 - sphinx-autoapi
+- sphinxcontrib-apidoc
 # DO NOT EDIT ABOVE THIS LINE, ADD DEPENDENCIES BELOW
 - cf-units
 - click
