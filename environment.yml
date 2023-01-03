@@ -10,6 +10,7 @@ dependencies:
 - pytest
 - pytest-cov
 - sphinx
+- sphinx-autoapi
 - sphinxcontrib-apidoc
 # DO NOT EDIT ABOVE THIS LINE, ADD DEPENDENCIES BELOW
 - cf-units
