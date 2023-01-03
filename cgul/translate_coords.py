@@ -20,6 +20,7 @@
 
 import logging
 import typing as T
+from copy import deepcopy
 
 import xarray as xr
 
@@ -79,16 +80,18 @@ def coord_translator(
         **c_model,
         **coord.attrs,
     }
-    coord = coord.assign_attrs(coord_attrs)
 
-    # Sometimes units are stored in the enoding, to remove conflicts when
-    # saving as netCDF we remove the encoding value here
-    double_defined_attrs = [
-        att for att in list(coord.attrs) if att in coord.encoding.keys()
-    ]
-    for att in double_defined_attrs:
-        print(att)
-        del coord.encoding[att]
+    # Sometimes attributes are stored in the encoding (e.g. for time variables),
+    # to remove conflicts when saving as netCDF we remove the attribute value here
+    coord_attrs = {
+        key: val for key, val in coord_attrs.items() if key not in coord.encoding.keys()
+    }
+    encoding_attrs = {
+        key: val for key, val in coord_attrs.items() if key in coord.encoding.keys()
+    }
+
+    coord = coord.assign_attrs(coord_attrs)
+    coord.encoding.update(encoding_attrs)
 
     return coord
 
@@ -129,14 +132,30 @@ def translate_coords(
     if coord_model is None:
         coord_model = DEFAULT_COORD_MODEL
 
+    lower_case = coord_model.get("_always_lower_case", False)
+    # First build dictionary of applicable coord models so we can deduce the order to change
+    update_order = []
+    c_models = {}
     for coordinate in data.coords:
+        if lower_case:
+            _coordinate = str(coordinate).lower()
+        else:
+            _coordinate = str(coordinate)
+        # Prioritise standard_name in attributes (this fixes disagreement between grib and CF time vars)
+        _coordinate = data[_coordinate].attrs.get("standard_name", _coordinate)
+        c_model = coord_model.get(_coordinate, {})
+        out_name = c_model.get("out_name", _coordinate)
+        c_models[coordinate] = deepcopy(c_model)
+        # Create safe order in which to update coordinates
+        if out_name in update_order:
+            update_order.append(coordinate)
+        else:
+            update_order.insert(0, coordinate)
+
+    for coordinate in data.coords:
+        c_model = c_models[coordinate]
+        out_name = c_model.get("out_name", coordinate)
         try:
-            if coord_model.get("_always_lower_case", False):
-                _coordinate = str(coordinate).lower()
-            else:
-                _coordinate = str(coordinate)
-            c_model = coord_model.get(_coordinate, {})
-            out_name = c_model.get("out_name", _coordinate)
             data = data.assign_coords(
                 {
                     coordinate: coord_translator(
