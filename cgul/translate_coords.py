@@ -142,7 +142,11 @@ def translate_coords(
         else:
             _coordinate = str(coordinate)
         # Prioritise standard_name in attributes (this fixes disagreement between grib and CF time vars)
-        _coordinate = data[coordinate].attrs.get("standard_name", _coordinate)
+        _coordinate_standard_name = data[coordinate].attrs.get(
+            "standard_name", _coordinate
+        )
+        if _coordinate_standard_name in coord_model:
+            _coordinate = _coordinate_standard_name
         c_model = coord_model.get(_coordinate, {})
         out_name = c_model.get("out_name", _coordinate)
         c_models[coordinate] = deepcopy(c_model)
