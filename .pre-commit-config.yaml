@@ -40,9 +40,3 @@ repos:
   - id: pretty-format-toml
     args: [--autofix]
     additional_dependencies: [toml-sort<0.22.0]
-- repo: https://github.com/PyCQA/pydocstyle.git
-  rev: 6.1.1
-  hooks:
-  - id: pydocstyle
-    additional_dependencies: [toml]
-    exclude: tests|docs
