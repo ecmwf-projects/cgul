@@ -67,6 +67,9 @@ ignore = [
   "D400",
 ]
 
+[tool.setuptools]
+packages = ["cgul"]
+
 [tool.setuptools_scm]
 write_to = "cgul/version.py"
 write_to_template = '''
