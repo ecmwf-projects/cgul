@@ -10,5 +10,4 @@ channels:
 dependencies:
 - cf-units
 - click
-- netCDF4
 - xarray
