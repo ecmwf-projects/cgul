@@ -20,6 +20,7 @@
 
 import logging
 import typing as T
+import warnings
 from copy import deepcopy
 
 import xarray as xr
@@ -171,7 +172,9 @@ def translate_coords(
                     )
                 }
             )
-            data = data.rename({coordinate: out_name})
+            with warnings.catch_warnings():
+                warnings.filterwarnings("ignore", category=UserWarning)
+                data = data.rename({coordinate: out_name})
         except Exception as err:
             if error_mode == "ignore":
                 pass
